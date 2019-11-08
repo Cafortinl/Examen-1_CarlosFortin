@@ -91,19 +91,10 @@ public class Principal extends javax.swing.JFrame {
         jb_eliminar = new javax.swing.JButton();
         jb_agreglista = new javax.swing.JButton();
         jb_info = new javax.swing.JButton();
+        jb_mod = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tp_signin.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                tp_signinAncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
 
         jLabel1.setText("Usuario");
 
@@ -484,23 +475,35 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jb_mod.setText("Modificar nombre");
+        jb_mod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_modMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(22, 22, 22)
+                .addComponent(jb_mostrar)
+                .addGap(9, 9, 9)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jb_mostrar)
-                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addComponent(jb_agreglista)
-                        .addGap(40, 40, 40)
+                        .addGap(29, 29, 29)
                         .addComponent(jb_info, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jb_eliminar))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(jb_mod)
+                        .addGap(26, 26, 26)
+                        .addComponent(jb_eliminar)
+                        .addGap(40, 40, 40))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,7 +515,8 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jb_mostrar)
                     .addComponent(jb_eliminar)
                     .addComponent(jb_agreglista)
-                    .addComponent(jb_info))
+                    .addComponent(jb_info)
+                    .addComponent(jb_mod))
                 .addGap(53, 53, 53))
         );
 
@@ -716,9 +720,27 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria"); 
     }//GEN-LAST:event_jb_infoMouseClicked
 
-    private void tp_signinAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tp_signinAncestorAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tp_signinAncestorAdded
+    private void jb_modMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_modMouseClicked
+        if(actual!=null){
+            if(tb_elim.getSelectedRow()>=0 && actual instanceof Administrador){
+                DefaultTableModel modelo=(DefaultTableModel)tb_elim.getModel();
+                String lb=(String)modelo.getValueAt(tb_elim.getSelectedRow(), 0);
+                for (Libro n : libros) {
+                    if(n.getTitulo().equals(lb)){
+                        String nn=JOptionPane.showInputDialog("Ingrese el nuevo nombre");
+                        n.setTitulo(nn);
+                        modelo.setValueAt(nn,tb_elim.getSelectedRow(), 0);
+                    }
+                    //modelo.removeRow(tb_elim.getSelectedRow());
+                    tb_elim.setModel(modelo);
+                }
+
+                //System.out.println(actual.getLibros());
+            } 
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");
+    }//GEN-LAST:event_jb_modMouseClicked
 
     /**
      * @param args the command line arguments
@@ -791,6 +813,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jb_entrar;
     private javax.swing.JButton jb_info;
     private javax.swing.JButton jb_listar;
+    private javax.swing.JButton jb_mod;
     private javax.swing.JButton jb_mostrar;
     private javax.swing.JButton jb_registrar;
     private javax.swing.JSpinner sp_copias;
