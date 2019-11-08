@@ -92,7 +92,11 @@ public class Principal extends javax.swing.JFrame {
         jb_agreglista = new javax.swing.JButton();
         jb_info = new javax.swing.JButton();
         jb_mod = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tb_gen = new javax.swing.JTable();
+        cb_listgen = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -482,6 +486,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Mostrar mi lista");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -504,6 +515,10 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jb_eliminar)
                         .addGap(40, 40, 40))))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(247, 247, 247)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,23 +532,69 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jb_agreglista)
                     .addComponent(jb_info)
                     .addComponent(jb_mod))
-                .addGap(53, 53, 53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(9, 9, 9))
         );
 
         tp_signin.addTab("Otras acciones", jPanel5);
+
+        tb_gen.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Titulo", "Autor", "Calificacion", "Precio"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tb_gen);
+
+        cb_listgen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fantasia", "Romance", "Accion", "Historia" }));
+        cb_listgen.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_listgenItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 641, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(172, 172, 172)
+                        .addComponent(cb_listgen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 454, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cb_listgen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        tp_signin.addTab("Historial", jPanel6);
+        tp_signin.addTab("Listar por genero", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -613,6 +674,31 @@ public class Principal extends javax.swing.JFrame {
 
     private void jb_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_listarMouseClicked
         if(actual!=null){
+            
+            tb_listarfav.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+                },
+                new String [] {
+                    "Titulo", "Autor", "Puntaje", "Precio"
+                }
+            ) {
+                Class[] types = new Class [] {
+                    java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                };
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            });
+            
             DefaultTableModel modelo=(DefaultTableModel) tb_listarfav.getModel();
             for (Libro l : libros) {
                 if(libros.get(libros.indexOf(l)).getGenero().equals(actual.getFavGen()))
@@ -742,6 +828,63 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");
     }//GEN-LAST:event_jb_modMouseClicked
 
+    private void cb_listgenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_listgenItemStateChanged
+        if(actual!=null){
+            if(evt.getStateChange()==2)
+            {
+
+                 tb_gen.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object [][] {
+
+                    },
+                    new String [] {
+                        "Titulo", "Autor", "Calificacion", "Precio"
+                    }
+                ) {
+                    Class[] types = new Class [] {
+                        java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                    };
+                    boolean[] canEdit = new boolean [] {
+                        false, false, false, false
+                    };
+
+                    public Class getColumnClass(int columnIndex) {
+                        return types [columnIndex];
+                    }
+
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit [columnIndex];
+                    }
+                });
+
+                DefaultTableModel modelo=(DefaultTableModel)tb_gen.getModel();
+                for (Libro r : libros) {
+                    if(libros.get(libros.indexOf(r)).getGenero().equals(cb_listgen.getSelectedItem().toString()))
+                    {
+                        Object[] newrow={r.getTitulo(), r.getAutor(), r.getPuntaje(),r.getValor()};
+                        modelo.addRow(newrow);
+                    }
+                }
+                tb_gen.setModel(modelo);
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la biblioteca");
+        
+    }//GEN-LAST:event_cb_listgenItemStateChanged
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if(actual!=null){
+            String salida="";
+            for (Libro l : actual.getLibros()) {
+                salida+=actual.getLibros().indexOf(l)+"- "+l+"\n";
+            }
+            JOptionPane.showMessageDialog(this, salida);
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que inicar sesion para poder utilizar la libreria");
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -780,7 +923,9 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cb_gen;
     private javax.swing.JComboBox<String> cb_genre;
+    private javax.swing.JComboBox<String> cb_listgen;
     private com.toedter.calendar.JDateChooser dc_fecha;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -807,6 +952,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jb_agregar;
     private javax.swing.JButton jb_agreglista;
     private javax.swing.JButton jb_eliminar;
@@ -821,6 +967,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner sp_puntaje;
     private javax.swing.JTextArea ta_descripcion;
     private javax.swing.JTable tb_elim;
+    private javax.swing.JTable tb_gen;
     private javax.swing.JTable tb_listarfav;
     private javax.swing.JTextField tf_autor;
     private javax.swing.JTextField tf_año;
