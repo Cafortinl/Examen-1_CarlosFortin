@@ -691,38 +691,42 @@ public class Principal extends javax.swing.JFrame {
 
     private void jb_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_agregarMouseClicked
         if(actual!=null){
-            try{
-                String titulo=tf_titulo.getText();
-                String descripcion=ta_descripcion.getText();
-                int puntaje=(int)sp_puntaje.getValue();
-                int copias=(int)sp_copias.getValue();
-                String gen=(String)cb_gen.getSelectedItem();
-                double valor=Double.parseDouble(tf_valor.getText());
-                int edicion=(int)sp_edicion.getValue();
-                String autor=tf_autor.getText();
-                int publicacion=Integer.parseInt(tf_año.getText());
-                libros.add(new Libro(titulo,descripcion,puntaje,copias,gen,valor,edicion,autor,publicacion));
+            if(actual instanceof Administrador){
+                try{
+                    String titulo=tf_titulo.getText();
+                    String descripcion=ta_descripcion.getText();
+                    int puntaje=(int)sp_puntaje.getValue();
+                    int copias=(int)sp_copias.getValue();
+                    String gen=(String)cb_gen.getSelectedItem();
+                    double valor=Double.parseDouble(tf_valor.getText());
+                    int edicion=(int)sp_edicion.getValue();
+                    String autor=tf_autor.getText();
+                    int publicacion=Integer.parseInt(tf_año.getText());
+                    libros.add(new Libro(titulo,descripcion,puntaje,copias,gen,valor,edicion,autor,publicacion));
 
-                //System.out.println(libros.get(libros.size()-1));
-                JOptionPane.showMessageDialog(this, "Libro registrado correctamente");
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(this, "Hubo un error agregando el libro, intente de nuevo");
+                    //System.out.println(libros.get(libros.size()-1));
+                    JOptionPane.showMessageDialog(this, "Libro registrado correctamente");
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(this, "Hubo un error agregando el libro, intente de nuevo");
+                }
+
+                tf_titulo.setText("");
+                ta_descripcion.setText("");
+                sp_puntaje.setValue(0);
+                sp_copias.setValue(0);
+                cb_gen.setSelectedIndex(0);
+                tf_valor.setText("");
+                sp_edicion.setValue(0);
+                tf_autor.setText("");
+                tf_año.setText("");
+
+                DefaultTableModel modelo=(DefaultTableModel)tb_historial.getModel();
+                String[] hist={actual.getNombre(),"Ha agregado un libro"};
+                modelo.addRow(hist);
+                tb_historial.setModel(modelo);
             }
-
-            tf_titulo.setText("");
-            ta_descripcion.setText("");
-            sp_puntaje.setValue(0);
-            sp_copias.setValue(0);
-            cb_gen.setSelectedIndex(0);
-            tf_valor.setText("");
-            sp_edicion.setValue(0);
-            tf_autor.setText("");
-            tf_año.setText("");
-            
-            DefaultTableModel modelo=(DefaultTableModel)tb_historial.getModel();
-            String[] hist={actual.getNombre(),"Ha agregado un libro"};
-            modelo.addRow(hist);
-            tb_historial.setModel(modelo);
+            else
+                JOptionPane.showMessageDialog(this, "Solo los administradores pueden agregar libros");
         }
         else{
             JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");
