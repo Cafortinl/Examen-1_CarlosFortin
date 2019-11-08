@@ -97,6 +97,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tb_gen = new javax.swing.JTable();
         cb_listgen = new javax.swing.JComboBox<>();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tb_historial = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -508,9 +511,9 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jb_agreglista)
-                        .addGap(29, 29, 29)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jb_info, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
                         .addComponent(jb_mod)
                         .addGap(26, 26, 26)
                         .addComponent(jb_eliminar)
@@ -596,6 +599,50 @@ public class Principal extends javax.swing.JFrame {
 
         tp_signin.addTab("Listar por genero", jPanel6);
 
+        tb_historial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Usuario", "Accion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tb_historial);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+
+        tp_signin.addTab("Historial", jPanel7);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -635,6 +682,11 @@ public class Principal extends javax.swing.JFrame {
         tf_correo.setText("");
         cb_gen.setSelectedIndex(0);
         
+        DefaultTableModel modelo=(DefaultTableModel)tb_historial.getModel();
+        String[] hist={"Alguien","Se ha registrado"};
+        modelo.addRow(hist);
+        tb_historial.setModel(modelo);
+        
     }//GEN-LAST:event_jb_registrarMouseClicked
 
     private void jb_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_agregarMouseClicked
@@ -666,6 +718,11 @@ public class Principal extends javax.swing.JFrame {
             sp_edicion.setValue(0);
             tf_autor.setText("");
             tf_año.setText("");
+            
+            DefaultTableModel modelo=(DefaultTableModel)tb_historial.getModel();
+            String[] hist={actual.getNombre(),"Ha agregado un libro"};
+            modelo.addRow(hist);
+            tb_historial.setModel(modelo);
         }
         else{
             JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");
@@ -733,6 +790,11 @@ public class Principal extends javax.swing.JFrame {
             tf_usuario.setText("");
             tf_password.setText("");
         
+            DefaultTableModel modelo=(DefaultTableModel)tb_historial.getModel();
+            String[] hist={actual.getNombre(),"Ha iniciado sesion"};
+            modelo.addRow(hist);
+            tb_historial.setModel(modelo);
+            
     }//GEN-LAST:event_jb_entrarMouseClicked
 
     private void jb_mostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_mostrarMouseClicked
@@ -760,6 +822,12 @@ public class Principal extends javax.swing.JFrame {
                 }
                 modelo.removeRow(tb_elim.getSelectedRow());
                 tb_elim.setModel(modelo);
+                
+                DefaultTableModel model=(DefaultTableModel)tb_historial.getModel();
+                String[] hist={actual.getNombre(),"Ha eliminado un libro"};
+                model.addRow(hist);
+                tb_historial.setModel(model);
+                
             }
             else
                 JOptionPane.showMessageDialog(this, "Solo un administrador puede eliminar libros");
@@ -821,7 +889,11 @@ public class Principal extends javax.swing.JFrame {
                     tb_elim.setModel(modelo);
                 }
 
-                //System.out.println(actual.getLibros());
+                DefaultTableModel model=(DefaultTableModel)tb_historial.getModel();
+                String[] hist={actual.getNombre(),"Modifico un libro"};
+                model.addRow(hist);
+                tb_historial.setModel(model);
+                
             } 
         }
         else
@@ -949,10 +1021,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton jb_agregar;
     private javax.swing.JButton jb_agreglista;
     private javax.swing.JButton jb_eliminar;
@@ -968,6 +1042,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextArea ta_descripcion;
     private javax.swing.JTable tb_elim;
     private javax.swing.JTable tb_gen;
+    private javax.swing.JTable tb_historial;
     private javax.swing.JTable tb_listarfav;
     private javax.swing.JTextField tf_autor;
     private javax.swing.JTextField tf_año;
