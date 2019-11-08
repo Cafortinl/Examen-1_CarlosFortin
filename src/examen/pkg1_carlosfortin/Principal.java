@@ -89,10 +89,21 @@ public class Principal extends javax.swing.JFrame {
         tb_elim = new javax.swing.JTable();
         jb_mostrar = new javax.swing.JButton();
         jb_eliminar = new javax.swing.JButton();
+        jb_agreglista = new javax.swing.JButton();
+        jb_info = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tp_signin.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tp_signinAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jLabel1.setText("Usuario");
 
@@ -178,11 +189,11 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
-                                .addComponent(cb_genre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cb_genre, 0, 147, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dc_fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                                .addComponent(dc_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel4)
@@ -453,6 +464,25 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jb_eliminar.setText("Eliminar");
+        jb_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_eliminarMouseClicked(evt);
+            }
+        });
+
+        jb_agreglista.setText("Agregar a mi lista");
+        jb_agreglista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_agreglistaMouseClicked(evt);
+            }
+        });
+
+        jb_info.setText("Info");
+        jb_info.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_infoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -463,6 +493,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jb_mostrar)
+                        .addGap(33, 33, 33)
+                        .addComponent(jb_agreglista)
+                        .addGap(40, 40, 40)
+                        .addComponent(jb_info, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jb_eliminar))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -476,11 +510,13 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jb_mostrar)
-                    .addComponent(jb_eliminar))
+                    .addComponent(jb_eliminar)
+                    .addComponent(jb_agreglista)
+                    .addComponent(jb_info))
                 .addGap(53, 53, 53))
         );
 
-        tp_signin.addTab("Eliminar Libros", jPanel5);
+        tp_signin.addTab("Otras acciones", jPanel5);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -493,20 +529,7 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 454, Short.MAX_VALUE)
         );
 
-        tp_signin.addTab("Otras Acciones", jPanel6);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 641, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 454, Short.MAX_VALUE)
-        );
-
-        tp_signin.addTab("Historial", jPanel7);
+        tp_signin.addTab("Historial", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -550,74 +573,152 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_registrarMouseClicked
 
     private void jb_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_agregarMouseClicked
-        
-        try{
-            String titulo=tf_titulo.getText();
-            String descripcion=ta_descripcion.getText();
-            int puntaje=(int)sp_puntaje.getValue();
-            int copias=(int)sp_copias.getValue();
-            String gen=(String)cb_gen.getSelectedItem();
-            double valor=Double.parseDouble(tf_valor.getText());
-            int edicion=(int)sp_edicion.getValue();
-            String autor=tf_autor.getText();
-            int publicacion=Integer.parseInt(tf_año.getText());
-            libros.add(new Libro(titulo,descripcion,puntaje,copias,gen,valor,edicion,autor,publicacion));
+        if(actual!=null){
+            try{
+                String titulo=tf_titulo.getText();
+                String descripcion=ta_descripcion.getText();
+                int puntaje=(int)sp_puntaje.getValue();
+                int copias=(int)sp_copias.getValue();
+                String gen=(String)cb_gen.getSelectedItem();
+                double valor=Double.parseDouble(tf_valor.getText());
+                int edicion=(int)sp_edicion.getValue();
+                String autor=tf_autor.getText();
+                int publicacion=Integer.parseInt(tf_año.getText());
+                libros.add(new Libro(titulo,descripcion,puntaje,copias,gen,valor,edicion,autor,publicacion));
 
-            //System.out.println(libros.get(libros.size()-1));
-            JOptionPane.showMessageDialog(this, "Libro registrado correctamente");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Hubo un error agregando el libro, intente de nuevo");
+                //System.out.println(libros.get(libros.size()-1));
+                JOptionPane.showMessageDialog(this, "Libro registrado correctamente");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(this, "Hubo un error agregando el libro, intente de nuevo");
+            }
+
+            tf_titulo.setText("");
+            ta_descripcion.setText("");
+            sp_puntaje.setValue(0);
+            sp_copias.setValue(0);
+            cb_gen.setSelectedIndex(0);
+            tf_valor.setText("");
+            sp_edicion.setValue(0);
+            tf_autor.setText("");
+            tf_año.setText("");
         }
-        
-        tf_titulo.setText("");
-        ta_descripcion.setText("");
-        sp_puntaje.setValue(0);
-        sp_copias.setValue(0);
-        cb_gen.setSelectedIndex(0);
-        tf_valor.setText("");
-        sp_edicion.setValue(0);
-        tf_autor.setText("");
-        tf_año.setText("");
-        
+        else{
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");
+        }
     }//GEN-LAST:event_jb_agregarMouseClicked
 
     private void jb_listarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_listarMouseClicked
-        DefaultTableModel modelo=(DefaultTableModel) tb_listarfav.getModel();
-        for (Libro l : libros) {
-            if(libros.get(libros.indexOf(l)).getGenero().equals(actual.getFavGen()))
-            {
-                Object[] newrow={l.getTitulo(), l.getAutor(), l.getPuntaje(),l.getValor()};
-                modelo.addRow(newrow);
+        if(actual!=null){
+            DefaultTableModel modelo=(DefaultTableModel) tb_listarfav.getModel();
+            for (Libro l : libros) {
+                if(libros.get(libros.indexOf(l)).getGenero().equals(actual.getFavGen()))
+                {
+                    Object[] newrow={l.getTitulo(), l.getAutor(), l.getPuntaje(),l.getValor()};
+                    modelo.addRow(newrow);
+                }
             }
+            tb_listarfav.setModel(modelo);
         }
-        tb_listarfav.setModel(modelo);
+        else
+          JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria");  
     }//GEN-LAST:event_jb_listarMouseClicked
 
     private void jb_entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_entrarMouseClicked
-        String user=tf_usuario.getText();
-        String pass=tf_password.getText();
         
-        for (Persona u : usuarios) {
-            if(u.getNombre().equals(user)){
-                if(u.getNombre().equals(user) && u.getPassword().equals(pass)){
-                    actual=u;
-                    JOptionPane.showMessageDialog(this, "Se ha iniciado sesion");
+            String user=tf_usuario.getText();
+            String pass=tf_password.getText();
+
+            for (Persona u : usuarios) {
+                if(u.getNombre().equals(user)){
+                    if(u.getNombre().equals(user) && u.getPassword().equals(pass)){
+                        actual=u;
+                        JOptionPane.showMessageDialog(this, "Se ha iniciado sesion");
+                    }
+                    else
+                        JOptionPane.showMessageDialog(this, "El usuario o la password ingresada no es valido");
+                    break;
                 }
-                else
-                    JOptionPane.showMessageDialog(this, "El usuario o la password ingresada no es valido");
-                break;
             }
-        }
+            
+            tf_usuario.setText("");
+            tf_password.setText("");
+        
     }//GEN-LAST:event_jb_entrarMouseClicked
 
     private void jb_mostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_mostrarMouseClicked
-         DefaultTableModel modelo=(DefaultTableModel) tb_elim.getModel();
-        for (Libro l : libros) {
-            Object[] newrow={l.getTitulo(), l.getAutor(), l.getPuntaje(),l.getValor()};
-            modelo.addRow(newrow);
+        if(actual!=null){
+            DefaultTableModel modelo=(DefaultTableModel) tb_elim.getModel();
+            for (Libro l : libros) {
+                Object[] newrow={l.getTitulo(), l.getAutor(), l.getPuntaje(),l.getValor()};
+                modelo.addRow(newrow);
+            }
+            tb_elim.setModel(modelo);
         }
-        tb_elim.setModel(modelo);
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria"); 
     }//GEN-LAST:event_jb_mostrarMouseClicked
+
+    private void jb_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_eliminarMouseClicked
+        
+        if(actual!=null){
+            if(tb_elim.getSelectedRow()>=0 && actual instanceof Administrador){
+                DefaultTableModel modelo=(DefaultTableModel)tb_elim.getModel();
+                String lb=(String)modelo.getValueAt(tb_elim.getSelectedRow(), 0);
+                for (Libro l : libros) {
+                    if(l.getTitulo().equals(lb))
+                        libros.remove(libros.indexOf(l));
+                }
+                modelo.removeRow(tb_elim.getSelectedRow());
+                tb_elim.setModel(modelo);
+            }
+            else
+                JOptionPane.showMessageDialog(this, "Solo un administrador puede eliminar libros");
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria"); 
+        
+    }//GEN-LAST:event_jb_eliminarMouseClicked
+
+    private void jb_agreglistaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_agreglistaMouseClicked
+        
+        if(actual!=null){
+            if(tb_elim.getSelectedRow()>=0){
+                DefaultTableModel modelo=(DefaultTableModel)tb_elim.getModel();
+                String lb=(String)modelo.getValueAt(tb_elim.getSelectedRow(), 0);
+                for (Libro n : libros) {
+                    if(n.getTitulo().equals(lb))
+                        actual.setLibro(libros.get(libros.indexOf(n)));
+                }
+
+                System.out.println(actual.getLibros());
+            }
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria"); 
+        
+    }//GEN-LAST:event_jb_agreglistaMouseClicked
+
+    private void jb_infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_infoMouseClicked
+       
+        if(actual!=null){
+            if(tb_elim.getSelectedRow()>=0){
+                DefaultTableModel modelo=(DefaultTableModel)tb_elim.getModel();
+                String lb=(String)modelo.getValueAt(tb_elim.getSelectedRow(), 0);
+                for (Libro n : libros) {
+                    if(n.getTitulo().equals(lb))
+                        JOptionPane.showMessageDialog(this, n.getTitulo()+"\n"+"Descripcion: "+"\n"+n.getDescripcion());
+                }
+
+                //System.out.println(actual.getLibros());
+            } 
+        }
+        else
+            JOptionPane.showMessageDialog(this, "Tiene que iniciar sesion para poder utilizar la libreria"); 
+    }//GEN-LAST:event_jb_infoMouseClicked
+
+    private void tp_signinAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tp_signinAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tp_signinAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -681,13 +782,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jb_agregar;
+    private javax.swing.JButton jb_agreglista;
     private javax.swing.JButton jb_eliminar;
     private javax.swing.JButton jb_entrar;
+    private javax.swing.JButton jb_info;
     private javax.swing.JButton jb_listar;
     private javax.swing.JButton jb_mostrar;
     private javax.swing.JButton jb_registrar;
